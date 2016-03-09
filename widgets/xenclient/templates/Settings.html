@@ -163,7 +163,7 @@
                 <h1>${BRIGHTNESS_LABEL}</h1>
                 <button dojoType="citrix.common.Button" dojoAttachEvent="onClick: increaseBrightness"><img src="images/buttons/increase_brightness.png" /></button>
                 <button dojoType="citrix.common.Button" dojoAttachEvent="onClick: decreaseBrightness"><img src="images/buttons/decrease_brightness.png" /></button>
-                <div class ="screenlock">
+               <div class ="screenlock">
                     <hr class="horizontalSeparator" />
                     <h1>${AUTH_TIMEOUT_HEADER}</h1>
                     <p class="auth local managed">${AUTH_SET_TIMEOUT_TEXT}</p>
@@ -252,6 +252,211 @@
                     <label for="build_tools">${TOOLS_VERSION_LABEL}</label>
                     <span class="value" dojoType="citrix.common.BoundWidget" name="build_tools"></span>
                 </div>
+            </div>
+            <div dojoType="citrix.common.ContentPane" title="Power Options">
+                <h1>Power Options</h1>
+                <table>
+                    <tr>
+                        <td class="col1"></td>
+                        <td><div class="powerOptionBatteryIcon"><div style="position: absolute; bottom:0; left:10px">&nbsp;&nbsp;&nbsp;Battery</div></div></td>
+                        <td><div class="powerOptionAcIcon"><div style="position: absolute; bottom:0; left:10px">&nbsp;&nbsp;&nbsp;Plugged&nbsp;In</div></div></td>
+                    </tr>
+                    <tr>
+                        <td>Turn off display</td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="battery_display_off_time" dojoAttachEvent="onChange: _onBatteryDisplayOffChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="ac_display_off_time" dojoAttachEvent="onChange: _onAcDisplayOffChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                             </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Put computer to sleep</td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="battery_sleep_time"  dojoAttachEvent="onChange: _onBatterySleepChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                             </select>
+                        </td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="ac_sleep_time"  dojoAttachEvent="onChange: _onAcSleepChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                             </select>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>Dim screen after</td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="battery_dim_time" dojoAttachEvent="onChange: _onBatteryDimChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                             </select>
+                        </td>
+                        <td>
+                        <select dojoType="citrix.common.Select" dojoAttachPoint="ac_dim_time" dojoAttachEvent="onChange: _onAcDimChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                             </select>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>Brightness level</td>
+                        <td>
+                            <div dojoType="dijit.form.HorizontalSlider" maximum="10" minimum ="0" discreteValues="11" class="slider" dojoAttachPoint="battery_dim_backlight" dojoAttachEvent="onChange: _onBatteryBacklightChange">
+                            </div>
+                         </td>
+                        <td>
+                           <div dojoType="dijit.form.HorizontalSlider" maximum="10" minimum ="0" discreteValues="11" class="slider" dojoAttachPoint="ac_dim_backlight" dojoAttachEvent="onChange: _onAcBacklightChange">
+                            </div>
+                         </td>
+                    </tr>
+                     <tr>
+                        <td></td>
+                        <td>
+                            <div style="text-align: center;" id="battery_backlight_readout"></div>
+                        </td>
+                        <td>
+                            <div style="text-align: center;" id="ac_backlight_readout"></div>
+                        </td>
+                    </tr>
+                    </table>
+                <hr class="horizontalSeparator" />
+                <table>
+                    <tr>
+                        <td class="col1"><input dojoAttachPoint="shutdown_on_idle" dojoType="dijit.form.CheckBox" dojoAttachEvent="onChange: _onShutdownChange"  />  Shutdown on idle</td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="battery_shutdown_time" dojoAttachEvent="onChange: _onBatteryShutdownChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select dojoType="citrix.common.Select" dojoAttachPoint="ac_shutdown_time" dojoAttachEvent="onChange: _onAcShutdownChange" class="selectList">
+                                <option value="1">1 ${MINUTE}</option>
+                                <option value="2">2 ${MINUTES}</option>
+                                <option value="3">3 ${MINUTES}</option>
+                                <option value="5">5 ${MINUTES}</option>
+                                <option value="10">10 ${MINUTES}</option>
+                                <option value="15">15 ${MINUTES}</option>
+                                <option value="20">20 ${MINUTES}</option>
+                                <option value="25">25 ${MINUTES}</option>
+                                <option value="30">30 ${MINUTES}</option>
+                                <option value="45">45 ${MINUTES}</option>
+                                <option value="60">1 ${HOUR}</option>
+                                <option value="120">2 ${HOURS}</option>
+                                <option value="180">3 ${HOURS}</option>
+                                <option value="240">4 ${HOURS}</option>
+                                <option value="300">5 ${HOURS}</option>
+                                <option value="0">Never</option>
+                            </select>
+                        </td>
+                     </tr>
+                </table>
             </div>
             <div dojoType="citrix.common.ContentPane" title="${SYS_INFO_AUTH_TITLE}">
                 <h1>${AUTH_PASSWORD_HEADER}</h1>

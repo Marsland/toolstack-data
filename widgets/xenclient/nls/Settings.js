@@ -102,6 +102,8 @@
     AUTH_MANAGED_TEXT: "Please use your Synchronizer credentials to log in.",
     MINUTE: "minute",
     MINUTES: "minutes",
+    HOUR: "hour",
+    HOURS: "hours",
     UPDATE_HEADER: "Software Update",
     CANNOT_UPGRADE: "Installed OpenXT version: {0}\nLatest OpenXT version: {1}\n\nIt is not possible to update to this version of OpenXT.",
     CAN_UPGRADE: "Installed OpenXT version: {0}\nLatest OpenXT version: {1}\n\nA newer version of OpenXT was detected, would you like to download this update?\n\nPlease refer to the documentation for more information about how this can affect your system.",

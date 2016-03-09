@@ -287,6 +287,18 @@ XenClient.UI.PowerModel = function(device_path) {
     this.device_path = device_path;
     this.publish_topic = device_path;
     this.type = 0; // 0: Unknown, 1: Line Power, 2: Battery, 3: Ups, 4: Monitor, 5: Mouse, 6: Keyboard, 7: Pda, 8: Phone
+    this.vars = {};
+    this.ac_display_off_time = "0";
+    this.battery_display_off_time = "0";
+    this.ac_sleep_time = "0";
+    this.battery_sleep_time = "0";
+    this.ac_dim_time = "0";
+    this.battery_dim_time = "0";
+    this.battery_shutdown_time = "0";
+    this.ac_shutdown_time = "0";
+    this.battery_dim_backlight = "5";
+    this.ac_dim_backlight = "5";
+    this.shutdown_on_idle = "0";
 
     // Services
     var services = {
@@ -298,26 +310,110 @@ XenClient.UI.PowerModel = function(device_path) {
         xcpmd:      services.xcpmd.com.citrix.xenclient.xcpmd
     };
 
-    // Mappings
-    var readOnlyMap = [
-        ["type",    interfaces.xcpmd, "battery_type"]
-    ];
+//    // Mappings
+//    var readOnlyMap = [
+//        ["vars",    interfaces.xcpmd, "get_vars"],
+//        ["type",    interfaces.xcpmd, "battery_type"]
+//    ];
 
     // Repository
-    var repository = new XenClient.UI.Repository(this, readOnlyMap);
+//    var repository = new XenClient.UI.Repository(this, readOnlyMap);
 
     function fail(error) {
         self.publish(XenConstants.TopicTypes.MODEL_FAILURE, error);
     }
 
-    // Public stuffs
-    this.publish = function(type, data) {
-        dojo.publish(self.publish_topic, [{ type: type, data: data }]);
+//    // Public stuffs
+//    this.publish = function(type, data) {
+//        dojo.publish(self.publish_topic, [{ type: type, data: data }]);
+//    };
+
+    this._updateVars= function(interfaces, error) {
+      interfaces.xcpmd.get_vars(
+       dojo.hitch(this, function(result){
+        if (result == 0 || !!result) {
+          this.vars = result;
+
+            for(i = 0; i<this.vars.length;i++)
+            {
+                var vals = this.vars[i].split("(");// values are returned as batt_display_idle(5)
+                vals[1]=vals[1].replace(")","");
+                switch(vals[0])
+                {
+                    case "batt_display_idle":
+                        this.battery_display_off_time = vals[1];
+                        break;
+                    case "ac_display_idle":
+                        this.ac_display_off_time = vals[1];
+                        break;
+                     case "batt_sleep_idle":
+                        this.battery_sleep_time = vals[1];
+                        break;
+                     case "ac_sleep_idle":
+                        this.ac_sleep_time = vals[1];
+                        break;
+                     case "batt_dim_idle":
+                        this.battery_dim_time = vals[1];
+                        break;
+                     case "ac_dim_idle":
+                        this.ac_dim_time = vals[1];
+                        break;
+                     case "batt_shutdown_idle":
+                        this.battery_shutdown_time = vals[1];
+                        break;
+                     case "ac_shutdown_idle":
+                        this.ac_shutdown_time = vals[1];
+                        break;
+                     case "batt_dim_backlight":
+                        this.battery_dim_backlight = vals[1];
+                        break;
+                     case "ac_dim_backlight":
+                        this.ac_dim_backlight = vals[1];
+                        break;
+                     case "shutdown_on_idle":
+                        this.shutdown_on_idle = vals[1];
+                        break;
+                 }
+            }
+        }
+      }), error);
     };
 
-    this.load = function(){};// null function to act as placeholder // repository.load;
-
-    this.isBattery = function() {
-        return (this.type == 2);
+    this._addVar= function(name, value, interfaces, error) {
+      interfaces.xcpmd.add_var(name,value,
+       dojo.hitch(this, function(result){
+       }), error);
     };
+
+
+    this.load = function(){
+      var error = function(error) {
+           XUICache.messageBox.showError(error, XenConstants.ToolstackCodes);
+      };
+      var self=this;
+
+      this._updateVars(interfaces, error);
+
+
+    };
+
+    this.refresh = function(){
+      var error = function(error) {
+           XUICache.messageBox.showError(error, XenConstants.ToolstackCodes);
+      };
+      var self=this;
+
+      this._updateVars(interfaces, error);
+
+    };
+
+    this.setVariable = function(name,value){
+        var error = function(error) {
+           XUICache.messageBox.showError(error, XenConstants.ToolstackCodes);
+        };
+
+        this._addVar(name,value,interfaces,error);
+    };
+
+
 };

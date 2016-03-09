@@ -405,6 +405,7 @@ XenClient.UI.Cache = (function() {
         ServiceVMs: {},
         Batteries: {},
         USB: new XenClient.UI.USBServiceModel(),
+        PowerModel: new XenClient.UI.PowerModel(),
         Host: new XenClient.UI.HostModel(),
         Update: new XenClient.UI.UpdateModel(),
         messageBox: null,
@@ -414,6 +415,7 @@ XenClient.UI.Cache = (function() {
             var wait = new XUtils.AsyncWait(finish);
             XUICache.Host.load(wait.addCallback());
             XUICache.Update.load(wait.addCallback());
+            XUICache.PowerModel.load(wait.addCallback());
             loadVMs();
             loadNDVMs();
             loadBatteries();

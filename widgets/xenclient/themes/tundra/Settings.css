@@ -71,3 +71,35 @@
 .tundra .nativeItem label {
     margin-left: 2px;
 }
+
+.tundra .selectList {
+    width: 100px;
+}
+
+.tundra .slider {
+    width: 110px;
+}
+.tundra .col1 {
+    width: 160px;
+}
+
+.tundra .powerOptionBatteryIcon{
+    background: url(/images/icons/battery1.png) no-repeat 0 0;
+    width: 14px;
+    height: 28px;
+    text-align: center;
+    background-position-y: 0px;
+    background-position-x: 0px;
+    position: relative;
+}
+
+.tundra .powerOptionAcIcon{
+    background: url(/images/icons/power1.png) no-repeat 0 0;
+    width: 13px;
+    height: 26px;
+    text-align: center;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    position: relative;
+
+}

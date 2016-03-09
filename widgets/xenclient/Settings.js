@@ -15,6 +15,10 @@ define([
     "citrix/common/Select",
     "citrix/xenclient/AudioSelect",
     "citrix/xenclient/AudioNumberSpinner",
+    "dojo/parser",
+    "dijit/form/HorizontalSlider",
+    "dijit/form/HorizontalRuleLabels",
+    "dijit/form/HorizontalRule",
     // Required in template
     "citrix/common/TabContainer",
     "citrix/common/ContentPane",
@@ -28,7 +32,7 @@ define([
     "citrix/common/Label",
     "citrix/common/Timeout"
 ],
-function(dojo, declare, domConstruct, settingsNls, template, dialog, _boundContainerMixin, _citrixTooltipMixin, itemFileReadStore, boundWidget, select, audioSelect, audioSpinner) {
+function(dojo, declare, domConstruct, settingsNls, template, dialog, _boundContainerMixin, _citrixTooltipMixin, itemFileReadStore, boundWidget, select, audioSelect, audioSpinner, parser, horizontalSlider, horizontalRuleLabels, horizontalRule) {
 return declare("citrix.xenclient.Settings", [dialog, _boundContainerMixin, _citrixTooltipMixin], {
 
 	templateString: template,
@@ -37,6 +41,7 @@ return declare("citrix.xenclient.Settings", [dialog, _boundContainerMixin, _citr
 
     constructor: function(args) {
         this.host = XUICache.Host;
+        this.power = XUICache.PowerModel;
     },
 
     postMixInProperties: function() {
@@ -62,6 +67,7 @@ return declare("citrix.xenclient.Settings", [dialog, _boundContainerMixin, _citr
         this.inherited(arguments);
         // Refresh when opening dialog
         this.host.refresh();
+        this.power.refresh();
     },
 
     save: function() {
@@ -94,6 +100,70 @@ return declare("citrix.xenclient.Settings", [dialog, _boundContainerMixin, _citr
     decreaseBrightness: function() {
         this.host.decreaseBrightness();
     },
+
+    _onBatteryDisplayOffChange: function(value){
+        this.power.setVariable("batt_display_idle",value);
+    },
+
+    _onAcDisplayOffChange: function(value){
+        this.power.setVariable("ac_display_idle",value);
+    },
+
+    _onBatterySleepChange: function(value){
+        this.power.setVariable("batt_sleep_idle",value);
+    },
+
+    _onAcSleepChange: function(value){
+        this.power.setVariable("ac_sleep_idle",value);
+    },
+
+    _onBatteryDimChange: function(value){
+        this.power.setVariable("batt_dim_idle",value);
+    },
+
+    _onAcDimChange: function(value){
+        this.power.setVariable("ac_dim_idle",value);
+    },
+
+   _onBatteryShutdownChange: function(value){
+        this.power.setVariable("batt_shutdown_idle",value);
+    },
+
+    _onAcShutdownChange: function(value){
+        this.power.setVariable("ac_shutdown_idle",value);
+    },
+
+   _onBatteryBacklightChange: function(value){
+       var newvalues = String(value).split(".");
+       this.power.setVariable("batt_dim_backlight",newvalues[0]);
+       dojo.byId("battery_backlight_readout").innerHTML = newvalues[0] + "0%";
+    },
+
+    _onAcBacklightChange: function(value){
+       var newvalues = String(value).split(".");
+       this.power.setVariable("ac_dim_backlight",newvalues[0]);
+       dojo.byId("ac_backlight_readout").innerHTML = newvalues[0] + "0%";
+     },
+
+    _onShutdownChange: function(value){
+       if(value==true)
+        {
+           this.power.setVariable("shutdown_on_idle","1");
+           // enable the dropdowns
+           this._setEnabled(this.battery_shutdown_time, true);
+           this._setEnabled(this.ac_shutdown_time, true);
+        }
+        else
+        {
+           this.power.setVariable("shutdown_on_idle","0");
+           // disable the dropdowns
+           this._setEnabled(this.battery_shutdown_time, false);
+           this._setEnabled(this.ac_shutdown_time, false);
+ 
+        }
+    },
+
+
 
     changePassword: function() {
         var flags;
@@ -240,8 +310,31 @@ return declare("citrix.xenclient.Settings", [dialog, _boundContainerMixin, _citr
         this._updateLanguages();
         this.bind(this.host);
         this._bindNativeDijits();
+        this._bindPower();
         this.inherited(arguments);
     },
+
+    _bindPower: function(){
+        this.ac_display_off_time.set("value", this.power.ac_display_off_time);
+        this.battery_display_off_time.set("value", this.power.battery_display_off_time);
+        this.ac_sleep_time.set("value", this.power.ac_sleep_time);
+        this.battery_sleep_time.set("value", this.power.battery_sleep_time);
+        this.ac_dim_time.set("value", this.power.ac_dim_time);
+        this.battery_dim_time.set("value", this.power.battery_dim_time);
+        this.ac_shutdown_time.set("value", this.power.ac_shutdown_time);
+        this.battery_shutdown_time.set("value", this.power.battery_shutdown_time);
+
+        this.ac_dim_backlight.set("value",parseInt(this.power.ac_dim_backlight));
+        this.battery_dim_backlight.set("value", parseInt(this.power.battery_dim_backlight))
+        if(this.power.shutdown_on_idle=="1")
+        {
+            this.shutdown_on_idle.set("checked", true);
+        }
+        else
+        {
+            this.shutdown_on_idle.set("checked", false);
+        }
+   },
 
     _updateDisplay: function() {
         this._setDisplay(".screenlock", this.host.policy_screen_lock);
